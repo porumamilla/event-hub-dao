@@ -1,0 +1,16 @@
+com/eventhub/dao/model/EventDefinition.class
+com/eventhub/dao/Application.class
+com/eventhub/dao/model/Source.class
+com/eventhub/dao/repository/TargetRepository.class
+com/eventhub/dao/repository/ConsumerRepository.class
+com/eventhub/dao/model/User.class
+com/eventhub/dao/repository/SourceRepository.class
+com/eventhub/dao/model/Consumer.class
+com/eventhub/dao/controller/DAOController.class
+com/eventhub/dao/model/Organization.class
+com/eventhub/dao/repository/OrganizationRepository.class
+com/eventhub/dao/model/Target.class
+com/eventhub/dao/repository/UserRepository.class
+com/eventhub/dao/repository/EventRepository.class
+com/eventhub/dao/util/RepositoryUtil.class
+com/eventhub/dao/repository/BaseRepository.class
