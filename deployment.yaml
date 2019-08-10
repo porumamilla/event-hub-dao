@@ -19,7 +19,7 @@ spec:
       volumes:
       - name: google-cloud-key
         secret:
-          secretName: google-cloud-key
+          secretName: firestore-key
       containers:
         - name: event-hub-dao
           image: "gcr.io/event-hub-249001/event-hub-dao:0.0.1-SNAPSHOT"
