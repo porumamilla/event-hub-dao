@@ -1,4 +1,4 @@
-apiVersion: config.istio.io/v1alpha2
+apiVersion: config.istio.io/v1alpha3
 kind: EgressRule
 metadata:
   name: gooleapis
