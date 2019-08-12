@@ -22,6 +22,8 @@ metadata:
 spec:
   hosts:
   - www.googleapis.com
+  gateways:
+  - istio-gateway
   tls:
   - match:
     - port: 443
