@@ -4,7 +4,7 @@ metadata:
   name: firestore-googleapis
 spec:
   hosts:
-  - firestore.googleapis.com
+  - www.googleapis.com
   ports:
   - number: 443
     name: https
@@ -21,14 +21,14 @@ metadata:
   name: firestore-googleapis
 spec:
   hosts:
-  - firestore.googleapis.com
+  - www.googleapis.com
   tls:
   - match:
     - port: 443
       sni_hosts:
-      - firestore.googleapis.com
+      - www.googleapis.com
     route:
     - destination:
-        host: firestore.googleapis.com
+        host: www.googleapis.com
         port:
           number: 443
