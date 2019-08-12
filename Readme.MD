@@ -17,5 +17,5 @@ kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 
 ## Egress
-For letting Firestore egress traffice please run the following (Needed if you have istio enabled on GKE namespace)
+For letting egress traffic to Firestore please run the following (Needed only if you have istio enabled on GKE namespace)
 kubectl apply -f egress-rule-google-apis.yaml
