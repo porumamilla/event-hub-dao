@@ -4,7 +4,7 @@ metadata:
   name: googleapis
 spec:
   hosts:
-  - www.googleapis.com
+  - "*.googleapis.com"
   ports:
   - number: 443
     name: https
@@ -18,15 +18,15 @@ metadata:
   name: googleapis
 spec:
   hosts:
-  - www.googleapis.com
+  - "*.googleapis.com"
   tls:
   - match:
     - port: 443
       sni_hosts:
-      - www.googleapis.com
+      - "*.googleapis.com"
     route:
     - destination:
-        host: www.googleapis.com
+        host: "*.googleapis.com"
         port:
           number: 443
       weight: 100
