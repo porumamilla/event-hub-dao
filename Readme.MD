@@ -9,3 +9,12 @@ docker run -p 8080:8080 -v /Users/Raghu/Downloads/:/var/Downloads -e GOOGLE_APPL
 
 ## Pushing to container registry
 mvn compile jib:build
+
+## Deploying to GKE
+kubectl apply -f deployment.yaml
+
+## Deploying service to GKE
+kubectl apply -f service.yaml
+
+## For letting Firestore egress traffice please run the following (Needed if you have istio enabled on GKE namespace)
+kubectl apply -f egress-rule-google-apis.yaml
