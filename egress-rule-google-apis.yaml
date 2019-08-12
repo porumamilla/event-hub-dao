@@ -24,6 +24,8 @@ spec:
   tls:
   - match:
     - port: 80
+      sni_hosts:
+      - www.googleapis.com
     route:
     - destination:
         host: www.googleapis.com
