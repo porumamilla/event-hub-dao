@@ -1,10 +1,10 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: googleapis
+  name: firestore-googleapis
 spec:
   hosts:
-  - www.googleapis.com
+  - firestore.googleapis.com
   ports:
   - number: 443
     name: https
@@ -15,18 +15,18 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: googleapis
+  name: firestore-googleapis
 spec:
   hosts:
-  - www.googleapis.com
+  - firestore.googleapis.com
   tls:
   - match:
     - port: 443
       sni_hosts:
-      - www.googleapis.com
+      - firestore.googleapis.com
     route:
     - destination:
-        host: www.googleapis.com
+        host: firestore.googleapis.com
         port:
           number: 443
       weight: 100
