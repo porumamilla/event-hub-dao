@@ -21,7 +21,7 @@ metadata:
 spec:
   hosts:
   - www.googleapis.com
-  http:
+  tls:
   - match:
     - port: 80
     route:
