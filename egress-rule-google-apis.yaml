@@ -7,9 +7,8 @@ spec:
   - "*.googleapis.com"
   ports:
   - number: 443
-    name: https
-    protocol: HTTPS
-  location: MESH_EXTERNAL
+    name: tls
+    protocol: TLS
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -28,4 +27,3 @@ spec:
         host: "*.googleapis.com"
         port:
           number: 443
-      weight: 100
