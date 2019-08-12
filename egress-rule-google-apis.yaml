@@ -5,6 +5,7 @@ metadata:
 spec:
   hosts:
   - firestore.googleapis.com
+  - 169.254.169.254
   ports:
   - number: 443
     name: https
