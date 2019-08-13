@@ -1,5 +1,9 @@
 # event-hub-dao
-This micro service is responsible in performing CRUD operations needed for Event Hub services. This service is developed using Spring boot & Google firestore client libraries
+This micro service is responsible in performing CRUD operations needed for Event Hub services. This service is developed using Spring boot & Google firestore client libraries. 
+
+From the following diagrom the green highlighted service represents this micro service
+
+![alt text](Architecture.png)
 
 ## Building docker
 mvn compile jib:dockerBuild
