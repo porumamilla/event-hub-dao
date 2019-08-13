@@ -1,4 +1,4 @@
-# Event Hub DAO Micro service
+# event-hub-dao
 This micro service is responsible in performing CRUD operations needed for Event Hub services. This service is developed using Spring boot & Google firestore client libraries
 
 ## Building docker
