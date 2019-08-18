@@ -22,7 +22,12 @@ public class OrganizationRepository extends BaseRepository {
 		DocumentReference docRef = db.collection("organizations").document(RepositoryUtil.getDocumentId());
 		Map<String, Object> data = new HashMap<>();
         data.put("name", organization.getName());
-        
+        data.put("address", organization.getAddress());
+        data.put("address2", organization.getAddress2());
+        data.put("city", organization.getCity());
+        data.put("country", organization.getCountry());
+        data.put("state", organization.getState());
+        data.put("postalCode", organization.getPostalCode());
         ApiFuture<WriteResult> result = docRef.set(data);
         result.get().getUpdateTime();
 	}
@@ -36,7 +41,12 @@ public class OrganizationRepository extends BaseRepository {
 	    	Organization org = new Organization();
 	    	org.setId(document.getId());
 	    	org.setName(document.getString("name"));
-	    	
+	    	org.setAddress(document.getString("address"));
+	    	org.setAddress2(document.getString("address2"));
+	    	org.setCity(document.getString("city"));
+	    	org.setCountry(document.getString("country"));
+	    	org.setState(document.getString("state"));
+	    	org.setPostalCode(document.getString("postalCode"));
 	    	orgs.add(org);
 	    }
 		return orgs;

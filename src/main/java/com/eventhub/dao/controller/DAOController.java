@@ -21,6 +21,7 @@ import com.eventhub.dao.repository.OrganizationRepository;
 import com.eventhub.dao.repository.SourceRepository;
 import com.eventhub.dao.repository.TargetRepository;
 import com.eventhub.dao.repository.UserRepository;
+import com.eventhub.dao.util.RepositoryUtil;
 
 @RestController
 public class DAOController {
@@ -55,9 +56,12 @@ public class DAOController {
 	}
 	
 	//org releated methods
-	@RequestMapping(value="/organization", method=RequestMethod.PUT)
-	public void saveOrganization(@RequestBody Organization org) throws Exception {
+	@RequestMapping(value="/organization", method=RequestMethod.POST)
+	public String saveOrganization(@RequestBody Organization org) throws Exception {
+		String docID = RepositoryUtil.getDocumentId();
+		org.setId(docID);
 		orgRepository.save(org);
+		return docID;
 	}
 	
 	@RequestMapping(value="/organizations", method=RequestMethod.GET)
@@ -66,9 +70,13 @@ public class DAOController {
 	}
 	
 	//User releated methods
-	@RequestMapping(value="/user", method=RequestMethod.PUT)
-	public void saveUser(@RequestBody User user) throws Exception {
+	@RequestMapping(value="/user", method=RequestMethod.POST)
+	public String saveUser(@RequestBody User user) throws Exception {
+		String docID = RepositoryUtil.getDocumentId();
+		user.setId(docID);
 		userRepository.save(user);
+		
+		return docID;
 	}
 	
 	@RequestMapping(value="/organization/users", method=RequestMethod.GET)

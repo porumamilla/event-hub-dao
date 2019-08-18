@@ -21,8 +21,10 @@ public class UserRepository extends BaseRepository {
 	public void save(User user) throws Exception {
 		DocumentReference docRef = db.collection("users").document(RepositoryUtil.getDocumentId());
 		Map<String, Object> data = new HashMap<>();
-        data.put("name", user.getEmail());
+        data.put("email", user.getEmail());
         data.put("orgId", user.getOrgId());
+        data.put("role", user.getRole());
+        data.put("defaultWorkSpace", user.getDefaultWorkspace());
         
         ApiFuture<WriteResult> result = docRef.set(data);
         result.get().getUpdateTime();
