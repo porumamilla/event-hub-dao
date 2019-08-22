@@ -1,5 +1,8 @@
 package com.eventhub.dao.model;
 
+import java.util.List;
+import java.util.Map;
+
 public class Organization {
     private String id;
 	private String name;
@@ -9,8 +12,16 @@ public class Organization {
 	private String country;
 	private String state;
 	private String postalCode;
+	private List<Map<String, String>> sourceTypes;
 	
-	
+	public List<Map<String, String>> getSourceTypes() {
+		return sourceTypes;
+	}
+
+	public void setSourceTypes(List<Map<String, String>> sourceTypes) {
+		this.sourceTypes = sourceTypes;
+	}
+
 	public String getAddress() {
 		return address;
 	}

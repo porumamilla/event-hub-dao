@@ -11,6 +11,7 @@ import com.eventhub.dao.model.User;
 import com.eventhub.dao.util.RepositoryUtil;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.FieldValue;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
@@ -19,7 +20,7 @@ import com.google.cloud.firestore.WriteResult;
 public class UserRepository extends BaseRepository {
 	
 	public void save(User user) throws Exception {
-		DocumentReference docRef = db.collection("users").document(RepositoryUtil.getDocumentId());
+		DocumentReference docRef = db.collection("users").document(user.getId());
 		Map<String, Object> data = new HashMap<>();
         data.put("email", user.getEmail());
         data.put("orgId", user.getOrgId());
@@ -61,5 +62,11 @@ public class UserRepository extends BaseRepository {
 			break;
 		}
 		return user;
+	}
+	
+	public void changeWorkspace(String userId, String workspace) {
+		DocumentReference docRef = db.collection("users").document(userId);
+		// Atomically add a new region to the "regions" array field.
+	    docRef.update("defaultWorkSpace", workspace);
 	}
 }

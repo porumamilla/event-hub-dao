@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.eventhub.dao.model.Organization;
 import com.eventhub.dao.model.Source;
+import com.eventhub.dao.model.SourceType;
 import com.eventhub.dao.util.RepositoryUtil;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -44,5 +46,19 @@ public class SourceRepository extends BaseRepository {
 			sources.add(source);
 		}
 		return sources;
+	}
+	
+	public List<SourceType> getSourceTypes() throws Exception {
+		List<SourceType> sourceTypes = new ArrayList<SourceType>();
+		ApiFuture<QuerySnapshot> query = db.collection("source_types").get();
+	    QuerySnapshot querySnapshot = query.get();
+	    List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+	    for (QueryDocumentSnapshot document : documents) {
+	    	SourceType sourceType = new SourceType();
+	    	sourceType.setId(document.getId());
+	    	sourceType.setType(document.getString("type"));
+	    	sourceTypes.add(sourceType);
+	    }
+		return sourceTypes;
 	}
 }

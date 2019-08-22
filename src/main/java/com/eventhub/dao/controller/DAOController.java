@@ -13,8 +13,10 @@ import com.eventhub.dao.model.Consumer;
 import com.eventhub.dao.model.EventDefinition;
 import com.eventhub.dao.model.Organization;
 import com.eventhub.dao.model.Source;
+import com.eventhub.dao.model.SourceType;
 import com.eventhub.dao.model.Target;
 import com.eventhub.dao.model.User;
+import com.eventhub.dao.model.Workspace;
 import com.eventhub.dao.repository.ConsumerRepository;
 import com.eventhub.dao.repository.EventRepository;
 import com.eventhub.dao.repository.OrganizationRepository;
@@ -50,6 +52,13 @@ public class DAOController {
 		sourceRepository.save(source);
 	}
 	
+
+	
+	@RequestMapping(value="/sourceTypes", method=RequestMethod.GET)
+	public List<SourceType> getSourceTypes() throws Exception {
+		return sourceRepository.getSourceTypes();
+	}
+	
 	@RequestMapping(value="/organization/sources", method=RequestMethod.GET)
 	public List<Source> getSources(@RequestParam(name="orgId") String orgId, @RequestParam(name="workspace") String workspace) throws Exception {
 		return sourceRepository.findByOrgId(orgId, workspace);
@@ -69,6 +78,11 @@ public class DAOController {
 		return orgRepository.findAll();
 	}
 	
+	@RequestMapping(value="/organizationBySourceKey", method=RequestMethod.GET)
+	public Organization getOrganization(@RequestParam(name="sourceKey") String sourceKey ) throws Exception {
+		return orgRepository.findBySourceKey(sourceKey);
+	}
+	
 	//User releated methods
 	@RequestMapping(value="/user", method=RequestMethod.POST)
 	public String saveUser(@RequestBody User user) throws Exception {
@@ -77,6 +91,11 @@ public class DAOController {
 		userRepository.save(user);
 		
 		return docID;
+	}
+	
+	@RequestMapping(value="/user/changeWorkspace", method=RequestMethod.POST)
+	public void changeWorkspace(@RequestParam(name="userId") String userId, @RequestParam(name="workspace") String workspace) throws Exception {
+		userRepository.changeWorkspace(userId, workspace);
 	}
 	
 	@RequestMapping(value="/organization/users", method=RequestMethod.GET)
@@ -119,5 +138,53 @@ public class DAOController {
 	@RequestMapping(value="/organization/eventDefinition", method=RequestMethod.GET)
 	public EventDefinition getEventDefinition(@RequestParam(name="eventName") String eventName, @RequestParam(name="orgId") String orgId, @RequestParam(name="workspace") String workspace) throws Exception {
 		return eventRepository.findDefinitionByOrgId(orgId, workspace, eventName);
+	}
+	
+	@RequestMapping(value="/organization/eventDefinition", method=RequestMethod.PUT)
+	public void saveEventDefinition(@RequestBody EventDefinition eventDefinition)  throws Exception {
+		eventDefinition.setId(RepositoryUtil.getDocumentId());
+		eventRepository.saveDefinition(eventDefinition);
+	}
+	
+	@RequestMapping(value="/organization/eventDefinition", method=RequestMethod.POST)
+	public void updateEventDefinition(@RequestBody EventDefinition eventDefinition)  throws Exception {
+		eventRepository.updateDefinition(eventDefinition);
+	}
+	
+	@RequestMapping(value="/organization/eventDefinition", method=RequestMethod.DELETE)
+	public void deleteEventDefinition(@RequestParam(name="id") String id)  throws Exception {
+		eventRepository.deleteDefinition(id);
+	}
+	
+	@RequestMapping(value="/organization/workspace", method=RequestMethod.PUT)
+	public void saveWorkspace(@RequestBody Workspace orgWorkspace)  throws Exception {
+		orgRepository.saveWorkspace(orgWorkspace);
+	}
+	
+	@RequestMapping(value="/organization/workspaces", method=RequestMethod.GET)
+	public List<Workspace> getWorkspaces(@RequestParam(name="orgId") String orgId)  throws Exception {
+		return orgRepository.getWorkspaces(orgId);
+	}
+	
+	@RequestMapping(value="/organization/sourceType", method=RequestMethod.PUT)
+	public void saveSourceType(@RequestParam(name="orgId") String orgId, @RequestBody SourceType sourceType)  throws Exception {
+		orgRepository.saveSourceType(orgId, sourceType);
+	}
+	
+	@RequestMapping(value="/organization/sourceType", method=RequestMethod.DELETE)
+	public void deleteSourceType(@RequestParam(name="orgId") String orgId, @RequestBody SourceType sourceType)  throws Exception {
+		orgRepository.deleteSourceType(orgId, sourceType);
+	}
+	
+	@RequestMapping(value="/organization/sourceTypes", method=RequestMethod.GET)
+	public List<SourceType> getSourceTypes(@RequestParam(name="orgId") String orgId, @RequestParam(name="workspace") String workspace)  throws Exception {
+		List<SourceType> referenceSourceTypes = sourceRepository.getSourceTypes();
+		List<SourceType> sourceTypes = orgRepository.getSourceTypes(orgId, workspace);
+		for (SourceType sourceType : sourceTypes) {
+			if (referenceSourceTypes.contains(sourceType)) {
+				sourceType.setType(referenceSourceTypes.get(referenceSourceTypes.indexOf(sourceType)).getType());
+			}
+		}
+		return sourceTypes;
 	}
 }

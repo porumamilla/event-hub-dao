@@ -11,6 +11,8 @@ com/eventhub/dao/model/Organization.class
 com/eventhub/dao/repository/OrganizationRepository.class
 com/eventhub/dao/model/Target.class
 com/eventhub/dao/repository/UserRepository.class
+com/eventhub/dao/model/Workspace.class
 com/eventhub/dao/repository/EventRepository.class
 com/eventhub/dao/util/RepositoryUtil.class
+com/eventhub/dao/model/SourceType.class
 com/eventhub/dao/repository/BaseRepository.class

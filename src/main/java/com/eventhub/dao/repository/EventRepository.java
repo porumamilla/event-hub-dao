@@ -1,15 +1,19 @@
 package com.eventhub.dao.repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
 import com.eventhub.dao.model.EventDefinition;
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 
 @Component(value="eventRepository")
 public class EventRepository extends BaseRepository {
@@ -68,5 +72,35 @@ public class EventRepository extends BaseRepository {
 		definition.setSchema(document.getString("schema"));
 		
 		return definition;
+	}
+	
+	public void saveDefinition(EventDefinition definition) throws Exception {
+		DocumentReference docRef = db.collection("org_event_definitions").document(definition.getId());
+		Map<String, Object> data = new HashMap<>();
+        data.put("eventName", definition.getEventName());
+        data.put("orgId", definition.getOrgId());
+        data.put("schema", definition.getSchema());
+        data.put("sourceId", definition.getSourceId());
+        data.put("workspace", definition.getWorkspace());
+        ApiFuture<WriteResult> result = docRef.set(data);
+        result.get().getUpdateTime();
+	}
+	
+	public void updateDefinition(EventDefinition definition) throws Exception {
+		DocumentReference docRef = db.collection("org_event_definitions").document(definition.getId());
+		Map<String, Object> data = new HashMap<>();
+        data.put("eventName", definition.getEventName());
+        data.put("orgId", definition.getOrgId());
+        data.put("schema", definition.getSchema());
+        data.put("sourceId", definition.getSourceId());
+        data.put("workspace", definition.getWorkspace());
+        ApiFuture<WriteResult> result = docRef.update(data);
+        result.get().getUpdateTime();
+	}
+	
+	public void deleteDefinition(String id) throws Exception {
+		DocumentReference docRef = db.collection("org_event_definitions").document(id);
+		ApiFuture<WriteResult> result = docRef.delete();
+        result.get().getUpdateTime();
 	}
 }
