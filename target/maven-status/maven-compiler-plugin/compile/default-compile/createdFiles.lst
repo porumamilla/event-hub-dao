@@ -3,6 +3,7 @@ com/eventhub/dao/Application.class
 com/eventhub/dao/model/Source.class
 com/eventhub/dao/repository/TargetRepository.class
 com/eventhub/dao/repository/ConsumerRepository.class
+com/eventhub/dao/model/Event.class
 com/eventhub/dao/model/User.class
 com/eventhub/dao/repository/SourceRepository.class
 com/eventhub/dao/model/Consumer.class

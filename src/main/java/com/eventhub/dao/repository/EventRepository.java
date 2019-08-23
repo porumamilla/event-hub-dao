@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.eventhub.dao.model.Event;
 import com.eventhub.dao.model.EventDefinition;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -102,5 +103,25 @@ public class EventRepository extends BaseRepository {
 		DocumentReference docRef = db.collection("org_event_definitions").document(id);
 		ApiFuture<WriteResult> result = docRef.delete();
         result.get().getUpdateTime();
+	}
+	
+	public List<Event> getLatestEvents(String orgId, String workspace) throws Exception {
+		List<Event> latestEvents = new ArrayList<Event>();
+		ApiFuture<QuerySnapshot> query = db.collection("org_events").whereEqualTo("orgId", orgId).whereEqualTo("workspace", workspace).get();
+		QuerySnapshot querySnapshot = query.get();
+		List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+		for (QueryDocumentSnapshot document : documents) {
+			Event event = new Event();
+			
+			event.setName(document.getString("name"));
+			event.setTimestamp(document.getString("timestamp"));
+			event.setUserId(document.getString("userId"));
+			event.setSourceKey(document.getString("sourceKey"));
+			event.setProperties((Map<String, Object>)document.get("properties"));
+			
+			latestEvents.add(event);
+		}
+		
+		return latestEvents;
 	}
 }

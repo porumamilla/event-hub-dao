@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eventhub.dao.model.Consumer;
+import com.eventhub.dao.model.Event;
 import com.eventhub.dao.model.EventDefinition;
 import com.eventhub.dao.model.Organization;
 import com.eventhub.dao.model.Source;
@@ -126,7 +127,7 @@ public class DAOController {
 	}
 	
 	@RequestMapping(value="/organization/eventDefinitions", method=RequestMethod.GET)
-	public List<EventDefinition> getEvents(@RequestParam(name="orgId") String orgId, @RequestParam(name="workspace") String workspace) throws Exception {
+	public List<EventDefinition> getEventDefinitions(@RequestParam(name="orgId") String orgId, @RequestParam(name="workspace") String workspace) throws Exception {
 		return eventRepository.findDefinitionsByOrgId(orgId, workspace);
 	}
 	
@@ -186,5 +187,10 @@ public class DAOController {
 			}
 		}
 		return sourceTypes;
+	}
+	
+	@RequestMapping(value="/organization/events", method=RequestMethod.GET)
+	public List<Event> getEvents(@RequestParam(name="orgId") String orgId, @RequestParam(name="workspace") String workspace)  throws Exception {
+		return eventRepository.getLatestEvents(orgId, workspace);
 	}
 }
