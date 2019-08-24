@@ -1,6 +1,7 @@
 package com.eventhub.dao.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eventhub.dao.model.Consumer;
 import com.eventhub.dao.model.Event;
+import com.eventhub.dao.model.EventCountsByDay;
 import com.eventhub.dao.model.EventDefinition;
 import com.eventhub.dao.model.Organization;
 import com.eventhub.dao.model.Source;
@@ -192,5 +194,10 @@ public class DAOController {
 	@RequestMapping(value="/organization/events", method=RequestMethod.GET)
 	public List<Event> getEvents(@RequestParam(name="orgId") String orgId, @RequestParam(name="workspace") String workspace)  throws Exception {
 		return eventRepository.getLatestEvents(orgId, workspace);
+	}
+	
+	@RequestMapping(value="/organization/eventCountsForPast7Days", method=RequestMethod.GET)
+	public List<EventCountsByDay> getEventCountsForPast7Days(@RequestParam(name="orgId") String orgId, @RequestParam(name="workspace") String workspace)  throws Exception {
+		return eventRepository.findEventCountsForPast7Days(orgId, workspace);
 	}
 }

@@ -1,6 +1,8 @@
 package com.eventhub.dao.repository;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,13 +10,16 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.eventhub.dao.model.Event;
+import com.eventhub.dao.model.EventCountsByDay;
 import com.eventhub.dao.model.EventDefinition;
+import com.eventhub.dao.util.DateUtil;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
+import com.google.protobuf.Timestamp;
 
 @Component(value="eventRepository")
 public class EventRepository extends BaseRepository {
@@ -114,7 +119,8 @@ public class EventRepository extends BaseRepository {
 			Event event = new Event();
 			
 			event.setName(document.getString("name"));
-			event.setTimestamp(document.getString("timestamp"));
+			com.google.cloud.Timestamp timestamp = document.getTimestamp("timestamp");
+			event.setTimestamp(timestamp.toString());
 			event.setUserId(document.getString("userId"));
 			event.setSourceKey(document.getString("sourceKey"));
 			event.setProperties((Map<String, Object>)document.get("properties"));
@@ -123,5 +129,56 @@ public class EventRepository extends BaseRepository {
 		}
 		
 		return latestEvents;
+	}
+	
+	public List<EventCountsByDay> findEventCountsForPast7Days(String orgId, String workspace) throws Exception {
+		//Map<String, Long> eventCountsForPast7Days = new HashMap<String, Long>();
+		List<EventCountsByDay> eventCountsForPast7Days = getInitializedEventCountsForPast7Days();
+		
+		ApiFuture<QuerySnapshot> query = db.collection("org_events").whereEqualTo("orgId", orgId)
+										.whereEqualTo("workspace", workspace)
+										.whereLessThan("timestamp", DateUtil.getCurrentTimestamp())
+										.whereGreaterThan("timestamp", DateUtil.get7DaysBackTimestamp())
+										.get();
+		QuerySnapshot querySnapshot = query.get();
+		List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+		for (QueryDocumentSnapshot document : documents) {
+			com.google.cloud.Timestamp timestamp = document.getTimestamp("timestamp");
+			String dayName = DateUtil.getDayName(timestamp.toDate());
+			EventCountsByDay eventCountsByDay = new EventCountsByDay();
+			eventCountsByDay.setDayName(dayName);
+			if (eventCountsForPast7Days.contains(eventCountsByDay)) {
+				EventCountsByDay existingEventCountsByDay= eventCountsForPast7Days.get(eventCountsForPast7Days.indexOf(eventCountsByDay));
+				existingEventCountsByDay.setCount(existingEventCountsByDay.getCount() + 1);
+			}
+		}
+		
+		return eventCountsForPast7Days;
+	}
+	
+	private List<EventCountsByDay> getInitializedEventCountsForPast7Days() {
+		List<EventCountsByDay> eventCountsForPast7Days = new ArrayList<EventCountsByDay>();
+		EventCountsByDay eventCountsByDay = new EventCountsByDay();
+		eventCountsByDay.setDayName("Monday");
+		eventCountsForPast7Days.add(eventCountsByDay);
+		eventCountsByDay = new EventCountsByDay();
+		eventCountsByDay.setDayName("Tuesday");
+		eventCountsForPast7Days.add(eventCountsByDay);
+		eventCountsByDay = new EventCountsByDay();
+		eventCountsByDay.setDayName("Wednesday");
+		eventCountsForPast7Days.add(eventCountsByDay);
+		eventCountsByDay = new EventCountsByDay();
+		eventCountsByDay.setDayName("Thursday");
+		eventCountsForPast7Days.add(eventCountsByDay);
+		eventCountsByDay = new EventCountsByDay();
+		eventCountsByDay.setDayName("Friday");
+		eventCountsForPast7Days.add(eventCountsByDay);
+		eventCountsByDay = new EventCountsByDay();
+		eventCountsByDay.setDayName("Saturday");
+		eventCountsForPast7Days.add(eventCountsByDay);
+		eventCountsByDay = new EventCountsByDay();
+		eventCountsByDay.setDayName("Sunday");
+		eventCountsForPast7Days.add(eventCountsByDay);
+		return eventCountsForPast7Days;
 	}
 }

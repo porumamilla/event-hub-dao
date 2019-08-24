@@ -14,6 +14,8 @@
 /Users/raghu/event-hub-workspace/event-hub-dao/src/main/java/com/eventhub/dao/controller/DAOController.java
 /Users/raghu/event-hub-workspace/event-hub-dao/src/main/java/com/eventhub/dao/model/Event.java
 /Users/raghu/event-hub-workspace/event-hub-dao/src/main/java/com/eventhub/dao/model/SourceType.java
+/Users/raghu/event-hub-workspace/event-hub-dao/src/main/java/com/eventhub/dao/model/EventCountsByDay.java
 /Users/raghu/event-hub-workspace/event-hub-dao/src/main/java/com/eventhub/dao/model/Target.java
 /Users/raghu/event-hub-workspace/event-hub-dao/src/main/java/com/eventhub/dao/repository/OrganizationRepository.java
 /Users/raghu/event-hub-workspace/event-hub-dao/src/main/java/com/eventhub/dao/model/User.java
+/Users/raghu/event-hub-workspace/event-hub-dao/src/main/java/com/eventhub/dao/util/DateUtil.java
