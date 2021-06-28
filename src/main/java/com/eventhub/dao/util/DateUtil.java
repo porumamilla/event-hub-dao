@@ -37,9 +37,4 @@ public class DateUtil {
         
         return simpleDateformat.format(date);
 	}
-	
-	
-	public static void main(String[] args) {
-		System.out.println(getTimestampStr(getCurrentTimestamp()));
-	}
 }
