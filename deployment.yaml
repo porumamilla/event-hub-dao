@@ -17,21 +17,21 @@ spec:
         track: stable
     spec:
       volumes:
-      - name: google-cloud-key
+      - name: event-hub-dao-secrets-volume
         secret:
-          secretName: firestore-key
+          secretName: event-hub-dao-secret
       containers:
         - name: event-hub-dao
-          image: "gcr.io/event-hub-249001/event-hub-dao:0.0.1-SNAPSHOT"
+          image: "gcr.io/event-hub-317019/event-hub-dao:0.0.1-SNAPSHOT"
           imagePullPolicy: "Always"
           volumeMounts:
-          - name: google-cloud-key
-            mountPath: /var/secrets/google
+          - name: event-hub-dao-secrets-volume
+            mountPath: /var/secrets/event-hub-dao-secret
           env:
           - name: GOOGLE_CLOUD_PROJECT
-            value: "event-hub-249001"
+            value: "event-hub-317019"
           - name: GOOGLE_APPLICATION_CREDENTIALS
-            value: /var/secrets/google/key.json
+            value: /var/secrets/event-hub-dao-secret/event-hub-317019-sa.json
           ports:
             - name: http
               containerPort: 8080
