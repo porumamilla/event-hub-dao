@@ -8,7 +8,7 @@ spec:
       app: event-hub-dao
       tier: backend
       track: stable
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
